@@ -187,6 +187,51 @@ void mouse(int botao, int estado, int mousex, int mousey)
 
 }
 
+void desenha(void) {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0,800,0,600);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+       //std::cout << pFinal->x;
+    Point* f[] = {p0, p1, p2, p3};
+    pFinal = new Point(p0->x,interpolate(f, p0->x, 4));
+    glPointSize(5);
+
+    glBegin(GL_POINTS);
+        glVertex2f(p0->x,p0->y);
+        glVertex2f(p1->x,p1->y);
+        glVertex2f(p2->x,p2->y);
+        glVertex2f(p3->x,p3->y);
+    glEnd();
+     glPointSize(2);
+     if(!mouseRight)
+     {
+        for(double i=p0->x+1;i<p3->x;i=i+1){
+        glBegin(GL_POINTS);
+            glVertex2f(pFinal->x,pFinal->y);
+            pFinal = new Point(i,interpolate(f, i, 4));
+            std::cout << pFinal->x << "\t" << pFinal->y << "\n";
+            glVertex2f(pFinal->x,pFinal->y);
+        glEnd();
+        }
+     }
+     else
+     {
+         for(double i=0.01;i<1;i=i+0.01){
+         glBegin(GL_LINES);
+            glVertex2f(pFinal->x,pFinal->y);
+            pFinal = bezier(p0,p1,p2,p3,i,pFinal);
+            std::cout << pFinal->x;
+            glVertex2f(pFinal->x,pFinal->y);
+        glEnd();
+        }
+     }
+
+    glFlush();
+}
 
 int main(int argc, char *argv[]) {
     glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
