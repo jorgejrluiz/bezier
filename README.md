@@ -10,6 +10,8 @@ Para baixar, basta clonar este repositório na sua máquina:
 ```sh
 git clone https://github.com/jorgejrluiz/bezier.git
 ```
+## Instruções de uso
+Para plotar uma curva utilizando um dos algoritmos implementados, basta pressionar o botão direito do mouse na interface gráfica e escolher as opções disponíveis na aba tipo de Curva.
 
 ## Bibliotecas
 O projeto foi desenvolvido na linguagem C++. As seguintes bibliotecas foram utilizadas na implementação do projeto:
@@ -23,16 +25,24 @@ Os algoritmos foram utilizados na implementação do projeto:
 - [Curvas Paramétricas Bézier](https://pt.wikipedia.org/wiki/Curva_de_Bézier)
 
 ## Inicialização da aplicação
-O C++ foi a linguagem utilizada nesse projeto. Na pasta bin, existe uma executável pronto caso não deseje compilar. Caso deseje compilar:
+O C++ foi a linguagem utilizada nesse projeto. Caso deseje compilar:
 
 ### Dentro da pasta
-Digite o seguitne comando no terminal:
+Digite o seguinte comando no terminal:
 ```
-g++ main.cpp -o main
+g++ main.cpp -o main -IGL -IGLU -IGLEW -Iglut
 ```
 Após a compilação, execute o seguinte comando:
 ```
 ./main
 ```
-Ou se preferir, abra o arquivo bezier.cbp no CodeBlocks para rodar o programa.
+### Observação
+Pode ser necessário a instalação das seguintes dependências para compilação:
+```
+sudo at-get install libgl1-mesa-dev
+```
+```
+sudo at-get install libglew1.5-dev freeglut3-dev libglm-dev
+```
 
+Após esses passos, será possível utilizar o programa.
