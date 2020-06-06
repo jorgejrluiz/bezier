@@ -39,10 +39,10 @@ Após a compilação, execute o seguinte comando:
 ### Observação
 Pode ser necessário a instalação das seguintes dependências para compilação:
 ```
-sudo at-get install libgl1-mesa-dev
+sudo apt-get install libgl1-mesa-dev
 ```
 ```
-sudo at-get install libglew1.5-dev freeglut3-dev libglm-dev
+sudo apt-get install libglew1.5-dev freeglut3-dev libglm-dev
 ```
 
 Após esses passos, será possível utilizar o programa.
