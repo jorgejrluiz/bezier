@@ -94,6 +94,22 @@ double interpolate(Point* f[], int xi, int n) {
     return result;
 }
 
+
+// Implementação do algoritmo de Hermite para expressar uma curva
+Point* hermite(Point* p0, Point* p1, Point* v0, Point* v1, double u, Point* pFinal) {
+
+    // Cálculo da coordenada x
+    double x = p0->x*(2*pow(u, 3) - 3* pow(u, 2) +1) + p1->x*(-2* pow(u, 3) + 3* pow(u,2)) + 
+			   v0->x*(pow(u, 3) - 2* pow(u, 2) + u) + v1->x*(pow(u,3) - pow(u,2));
+
+    // Cálculo da coordenada y
+    double y = p0->y*(2*pow(u, 3) - 3* pow(u, 2) +1) + p1->y*(-2* pow(u, 3) + 3* pow(u,2)) + 
+			   v0->y*(pow(u, 3) - 2* pow(u, 2) + u) + v1->y*(pow(u,3) - pow(u,2));
+
+    // Retorna o novo ponto
+    return new Point(x,y);
+}
+
 /**
 * Metodo para escolher ponto com base na distancia entre os pontos
 * @param  x  inteiro que representa a cordenada x
@@ -195,22 +211,25 @@ void desenha(void) {
     gluOrtho2D(0,800,0,600);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-       //std::cout << pFinal->x;
+    //std::cout << pFinal->x;
     Point* f[] = {p0, p1, p2, p3};
     pFinal = new Point(p0->x,interpolate(f, p0->x, 4));
     glPointSize(5);
 
     glBegin(GL_POINTS);
+        glColor3f(0.0f, 0.0f, 0.0f); // muda a cor do ponto
         glVertex2f(p0->x,p0->y);
         glVertex2f(p1->x,p1->y);
         glVertex2f(p2->x,p2->y);
         glVertex2f(p3->x,p3->y);
     glEnd();
      glPointSize(2);
+
      if(!mouseRight)
      {
         for(double i=p0->x+1;i<p3->x;i=i+1){
         glBegin(GL_POINTS);
+            glColor3f(0.0f, 0.0f, 0.0f); // muda a cor do ponto
             glVertex2f(pFinal->x,pFinal->y);
             pFinal = new Point(i,interpolate(f, i, 4));
             std::cout << pFinal->x << "\t" << pFinal->y << "\n";
@@ -219,26 +238,33 @@ void desenha(void) {
         }
      }
      else
-     {
+     {   
+         //for (double u = 0; u < 1.0; u+=0.01){ hermite
          for(double i=0.01;i<1;i=i+0.01){
          glBegin(GL_LINES);
+            glColor3f(0.0f, 0.0f, 0.0f); // muda a cor da linha
             glVertex2f(pFinal->x,pFinal->y);
             pFinal = bezier(p0,p1,p2,p3,i,pFinal);
+            //pFinal = hermite(p0,p1,p2,p3,i,pFinal);
             std::cout << pFinal->x;
             glVertex2f(pFinal->x,pFinal->y);
         glEnd();
+        
         }
+        
      }
 
     glFlush();
 }
 
 int main(int argc, char *argv[]) {
+    glutInit( & argc, argv );
     glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
     glutInitWindowSize(800,600);
     glutInitWindowPosition(10,10);
     glutCreateWindow("GRAPH TOOL - COMPUTACAO GRAFICA");
-    glClearColor(0,0,1,0);
+    //glClearColor(0,0,1,0);
+    glClearColor(1,1,1,0); // cor do fundo GLfloat [red, green, blue, alpha]
     glClear(GL_COLOR_BUFFER_BIT);
 
     glutDisplayFunc(desenha);
